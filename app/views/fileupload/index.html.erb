@@ -1,0 +1,72 @@
+<h1> <%= @h1 %> </h1>
+<div id="mainbody">
+  <div id="container">
+    <div id="mainbox">
+      <div id="mainfield">
+
+<table border="1" width="700px">
+  <tr>
+    <th>サムネイル</th>
+    <th>ファイル名</th>
+    <th>説明</th>
+    <th>アップロード日</th>
+    <th>ファイル削除</th>
+  </tr>
+
+
+<% @myfiles.each do |myfile| %>
+
+  <tr style="background-color:<%= cycle('#ffffff', '#d3d3d3') %>">
+    <% filename = myfile.filename %>
+<!--    <td><%= image_tag "/picture/#{current_user.id}/#{filename}", :size => '120x90'  %></td>
+-->
+    <td>
+    <% if ['.jpg', '.gif', '.png'].include?(File.extname(filename).downcase) %>
+<!--      <%= link_to image_tag("/picture/#{current_user.id}/#{filename}", :size => '120x90'), "/report/picture/#{current_user.id}/#{filename}" %> -->
+      <%= link_to image_tag("/picture/#{current_user.id}/#{filename}", :size => '120x90'), "/home/wataken/ROR/test/v4.2/report/public/picture/#{current_user.id}/#{filename}" %> 
+<!--      <%= link_to image_tag("/picture/#{current_user.id}/#{filename}", :size => '120x90'), "/picture/#{current_user.id}/#{filename}" %> -->
+
+    <% end %>
+    <% if ['.html', '.htm', '.css'].include?(File.extname(filename).downcase) %>
+<!--      <%= link_to("#{filename}", "/report/html/#{current_user.id}/#{filename}") %> -->
+      <%= link_to("#{filename}", "/home/wataken/ROR/test/v4.2/report/html/#{current_user.id}/#{filename}") %>
+    <% end %>
+    <% if ['.sh'].include?(File.extname(filename).downcase) %>
+<!--      <%= link_to("#{filename}", "/report/sh/#{current_user.id}/#{filename}") %> -->
+      <%= link_to("#{filename}", "/home/wataken/ROR/test/v4.2/report/sh/#{current_user.id}/#{filename}") %>
+
+    <% end %>
+    <% if ['.zip'].include?(File.extname(filename).downcase) %>
+<!--      <%= link_to("#{filename}", "/report/zip/#{current_user.id}/#{filename}") %> -->
+      <%= link_to("#{filename}", "/home/wataken/ROR/test/v4.2/report/zip/#{current_user.id}/#{filename}") %>
+
+    <% end %>
+    <% if ['.gz'].include?(File.extname(filename).downcase) %>
+      <%= link_to("#{filename}", "/report/targz/#{current_user.id}/#{filename}") %>
+<!--      <%= link_to("#{filename}", "/home/wataken/ROR/test/v4.2/report/targz/#{current_user.id}/#{filename}") %>-->
+    <% end %>
+
+</td>
+    <td><%= myfile.filename %></td>
+    <td><%= myfile.caption %></td>
+    <td><%= truncate(myfile.created_at.to_s, :length => 19, :omission => "") %></td>
+    <td><%= link_to('Destroy', :controller => 'fileupload', :action => 'destroy', :id => myfile.id, :confirm => 'Are you sure?') %></td>
+  </tr>
+<% end %>
+</table>
+<p>
+<!--  <%= link_to 'マイページ', mypage_path(current_user.id) %> | -->
+  <%= link_to 'ファイルアップロード', fileupload_path %>
+</p>
+
+      </div>
+    </div>
+    <div id="sidebox">
+      <div id="sidemenu">
+        <!-- サイドメニュー  -->
+        <%= render 'shared/sidemenu_public' %>
+      </div>
+    </div>
+  </div>
+</div>
+

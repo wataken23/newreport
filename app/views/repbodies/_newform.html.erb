@@ -1,0 +1,107 @@
+<div id="mainbody">
+  <div id="container">
+    <div id="mainbox">
+      <div id="mainfield">
+	<!-- メインコンテンツ  -->
+	<%= form_for([current_user, @repbody]) do |f| %>
+	<% if @repbody.errors.any? %>
+	<div id="error_explanation">
+	  <h2><%= pluralize(@repbody.errors.count, "error") %> prohibited this repbody from being saved:</h2>
+	  
+	  <ul>
+	    <% @repbody.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+	    <% end %>
+	  </ul>
+	</div>
+	<% end %>
+
+	<% params[:hoge] = "menimeni"%>
+	<div class="field">
+	  <%= f.hidden_field :user_id %>
+	</div>
+	
+	<div class="field">
+	  <%= f.label :タグ %>
+	  <%= f.collection_select(:tag_id, @tag, :id, :tag)%>
+	</div>
+	
+	
+	<div class="field">
+	  <%= f.label :タイトル %><br />
+	  <%= f.text_field :title %>
+	</div>
+	<div class="field">
+	  <%= f.label :本文 %><br />
+	  <%= f.text_area :body %>
+	</div>
+	<%# hidden_field :lock, :lock_version %>
+	<%#= field_set_tag '参考 URL' do %>
+	<%#= fields_for :hyperlinks do |hyperlink_form| %>
+
+	<div id="disp1">
+
+	    <input type="button" value="参考 URL 追加欄を表示" onclick="Hyoji1(0)">
+
+	</div>
+	<div id="disp2" style="display:none;">
+
+  	    <input type="button" value="参考 URL 入力欄を非表示" onclick="Hyoji1(1)">
+
+	  <table>
+	    <% @slink.each_with_index do |slink, i| %>
+	    <% @slink = slink %>
+	    <tr>
+	      <td>title<%= i+1 %></td>
+	      <td><%= text_field "slink", "title", :id =>"slink_title_#{i}", :index => i%></td>
+	    </tr>
+	    <tr>
+	      <td>
+		<!--	<label for="slink_title_<%= i %>">title</label> -->
+		URL<%= i+1 %>
+	      </td>
+	      <!--	<label for="slink_url_<%= i %>">url</label> -->
+	      <td>
+		<%= text_field "slink", "link", :id =>"slink_url_#{i}", :index => i  ,:rows => 10%>
+	      </td>
+	      <% end %>
+	      <%# end %>
+	      <%# end %>
+	  </table>
+	</div>
+	
+	
+	<div class="actions">
+	  <%= f.submit("submit",:disable_with => "処理中") %>
+	</div>
+	<% end %>
+      </div>
+    </div>
+    <div id="sidebox">
+      <div id="sidemenu">
+	<!-- サイドメニュー  -->
+	<%= render 'shared/sidemenu_public' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+
+function Hyoji1(num)
+{
+  if (num == 0)
+  {
+    document.getElementById("disp1").style.display="none";
+    document.getElementById("disp2").style.display="block";
+  }
+  else
+  {
+    document.getElementById("disp1").style.display="block";
+    document.getElementById("disp2").style.display="none";
+  }
+}
+// -->
+</script>

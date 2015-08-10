@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Report</title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+     function ShowTheYear() {
+      var now = new Date();
+      var year = now.getFullYear();
+      document.write(year);
+      }
+  </script>
+</head>
+<body>
+  <%= yield %>
+  <div id="footer">
+    <p> copyright &copy; inex <script type="text/javascript"> ShowTheYear(); </script> All rights reserved. </p>
+  </div>
+</body>
+</html>

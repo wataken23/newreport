@@ -1,0 +1,108 @@
+<h1>ユーザ情報の編集</h1>
+<div id="mainbody">
+  <div id="container">
+    <div id="mainbox">
+      <div id="imagebox">
+        <!-- userimage  -->
+        <div class="field">
+          <%= image_tag current_user.avatar.url, :size => "200x200" %>
+        </div>
+        <%= link_to 'Edit', avatar_path(@user) %> 
+      </div> <!-- imagebox -->
+      <div id="mainfield">
+	<!-- メインコンテンツ  -->
+	<%= form_for(@user) do |f| %>
+	<% if @user.errors.any? %>
+	<div id="error_explanation">
+	  <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+	  
+	  <ul>
+	    <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+	    <% end %>
+	  </ul>
+	</div>
+	<% end %>
+
+
+        <div class="field">
+          <b>Year:</b>
+          <%= @user.year %>
+        </div>
+
+        <div class="field">
+          <b>ID:</b>
+          <%= @user.id %>
+        </div>
+
+        <div class="field">
+          <b>Account:</b>
+          <%= @user.account %>
+        </div>
+
+        <div class="field">
+          <b>Username:</b>
+          <%= @user.username %>
+        </div>
+
+        <div class="field">
+          <b>Furigana:</b>
+          <%= @user.furigana %>
+        </div>
+
+        <div class="field">
+          <b>Studentid:</b>
+          <%= @user.studentid %>
+        </div>
+
+        <div class="field">
+          <b>Role:</b>
+          <%= @user.role.position %>
+        </div>
+
+        <div class="field">
+          <b>Grade:</b>
+          <%= @user.grade %>
+        </div>
+
+        <% unless @role["#{current_user.role_id}"] == '受講生' %>
+	  <%= f.label :情報実験機　「担当テーブルの3N機」 %>  
+	  <%= f.text_field :machine %>  
+        <% else %>
+        <div class="field">
+          <b>Machine:</b>
+          <%= @user.machine %>
+        </div>
+        <% end %>
+
+	<div class="field">  
+	  <%= f.label :メールアドレス %>  
+	  <%= f.text_field :email %>  
+	</div>  
+	
+	<div class="field">  
+	  <%= f.label :パスワード %>  
+	  <%= f.password_field :password %> 
+	</div>  
+	<div class="field">  
+	  <%= f.label :パスワード確認 %>  
+	  <%= f.password_field :password_confirmation %>  
+	</div>  
+	<div class="actions">
+	  <%= f.submit %>
+	</div>
+	<% end %>
+      </div>
+    </div>
+    <div id="sidebox">
+      <div id="sidemenu">
+	<!-- サイドメニュー  -->
+	<%= render 'shared/sidemenu_public' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

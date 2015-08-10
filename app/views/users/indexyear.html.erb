@@ -1,0 +1,178 @@
+<h1>ユーザ一覧</h1>
+
+<div id="mainbody">
+  <div id="container">
+    <div id="mainbox">
+      <div id="mainfield">
+	<!-- メインコンテンツ  -->
+	<h2><%= @h1%></h2>
+	<p>
+	  タグで絞り込む？
+	  <%= form_tag({:action => "indexyear"}) do %>
+	  <%#= select_tag('yearserch', options_from_collection_for_select(@years, :id, :year, @yearserch ), :prompt => "すべてを表示", :onchange => 'submit();') %>
+	  <%= select_tag('yearserch', options_from_collection_for_select(@years, :id, :year, @yearserch ), :prompt => "すべてを表示") %> 年度の
+          <%= text_field_tag :keywords, params[:keywords], :placeholder => ' johoXX johoXX ...', :size => '5px' %>
+          <%= submit_tag '絞り込み', :name => nil%>
+	  <% end %>
+	</p>
+	<%= @papa%>
+	<br>
+	<% if current_user.id == "1" %>
+	<table border="1" width="700px">
+	  <tr>
+	    <th>Year</th>
+            <th>Avatar</th>
+	    <th>Account</th>
+	    <th>Username</th>
+	    <th>ふりがな</th>
+	    <th>Studentid</th>
+	    <th>Email</th>
+	    <th>Role</th>
+	    <th>Grade</th>
+	    <th>情報実験機番号</th>
+	    <th>レポートを見る</th>
+	    <th>ユーザ情報</th>
+	    <th>ユーザ情報変更</th>
+            <th>ユーザ抹消</th>
+	  </tr>
+	  
+	  <% @users.each do |user| %>
+	  <% if user.acception %>
+	  <tr style="background-color:<%= cycle('#ffffff', '#d3d3d3') %>">
+	    <td><%= user.year %></td>
+            <td><%= image_tag user.avatar.url, :size => "70x70" %></td>
+	    <td><%= user.account %></td>
+	    <td><%= user.username %></td>
+	    <td><%= user.furigana %></td>
+	    <td><%= user.studentid %></td>
+	    <td><%= user.email %></td>
+	    <td><%= @role["#{user.role_id}"] %></td>
+	    <td><%= user.grade %></td>
+	    <td><%= user.machine %></td>
+	    <td><%= link_to 'Report', userreportshow_path(user.id) %></td>
+	    <td><%= link_to 'Show', user %></td>
+	    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+            <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>   
+	  </tr>
+	  <% end %>
+	  <% end %>
+	</table>
+
+	<% elsif @role["#{current_user.role.id}"] != "受講生" && current_user.id != "1"%>
+	<table border="1" width="700px">
+	  <tr>
+	    <th>Year</th>
+            <th>Avatar</th>
+	    <th>Account</th>
+	    <th>Username</th>
+	    <th>ふりがな</th>
+	    <th>Studentid</th>
+	    <th>Email</th>
+	    <th>Role</th>
+	    <th>Grade</th>
+	    <th>情報実験機番号</th>
+	    <th>レポートを見る</th>
+	    <th>ユーザ情報</th>
+	    <th>ユーザ情報変更</th>
+	  </tr>
+	  
+	  <% @users.each do |user| %>
+	  <% if user.acception %>
+	  <tr style="background-color:<%= cycle('#ffffff', '#d3d3d3') %>">
+	    <td><%= user.year %></td>
+            <td><%= image_tag user.avatar.url, :size => "70x70" %></td>
+	    <td><%= user.account %></td>
+	    <td><%= user.username %></td>
+	    <td><%= user.furigana %></td>
+	    <td><%= user.studentid %></td>
+	    <td><%= user.email %></td>
+	    <td><%= @role["#{user.role_id}"] %></td>
+	    <td><%= user.grade %></td>
+	    <td><%= user.machine %></td>
+	    <td><%= link_to 'Report', userreportshow_path(user.id) %></td>
+	    <td><%= link_to 'Show', user %></td>
+	    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+	  </tr>
+	  <% end %>
+	  <% end %>
+	</table>
+	
+	<br />
+	<% else %>
+	<table border="1" width="700px">
+	  <tr>
+	    <th>Account</th>
+            <th>Avatar</th>
+	    <th>Username</th>
+	    <th>Studentid</th>
+	    <th>Role</th>
+	    <th>Grade</th>
+	    <th>レポートを見る</th>
+	  </tr>
+	  
+	  <% @users.each do |user| %>
+	  <% if user.acception %>
+	  <tr style="background-color:<%= cycle('#ffffff', '#d3d3d3') %>">
+	    <td><%= user.account %></td>
+            <td><%= image_tag user.avatar.url, :size => "70x70" %></td>
+	    <td><%= user.username %></td>
+	    <td><%= user.studentid %></td>
+	    <td><%= @role["#{user.role_id}"] %></td>
+	    <td><%= user.grade %></td>
+	    <!--    <td><%= user.password_digest %></td> -->
+	    <td><%= link_to 'Show', userreportshow_path(user.id) %></td>
+	  </tr>
+	  <% end %>
+	  <% end %>
+	</table>
+	<br />
+	<% end %>
+
+	<% unless @role["#{current_user.role.id}"] == "受講生" %>
+	<% if @user_waiting.length != 0 %>
+	<h2> 承認待ちユーザがいます</h2>
+	<table border="1" width="700px">
+	  <tr>
+	    <th>Year</th>
+	    <th>Account</th>
+	    <th>Username</th>
+	    <th>Studentid</th>
+	    <th>Role</th>
+	    <th>Grade</th>
+	    <th>承認</th>
+	    <th>破棄</th>
+	  </tr>
+	  
+	  <% @user_waiting.each do |user| %>
+	  <tr style="background-color:<%= cycle('#ffffff', '#d3d3d3') %>">
+	    <td><%= user.year %></td>
+	    <td><%= user.account %></td>
+	    <td><%= user.username %></td>
+	    <td><%= user.studentid %></td>
+	    <td><%= @role["#{user.role_id}"] %></td>
+	    <td><%= user.grade %></td>
+	    <td><%= link_to '承認', acception_path(user.id), confirm: "アカウント '#{user.account}' を承認します." %></td>
+	    <td><%= link_to '棄却', user, confirm: "アカウント #{user.account} の申請を棄却します", method: :delete %></td>
+	  </tr>	
+
+	<% end %>	
+	<% end %>	
+	</table>
+	<br />
+	<% end %>	
+	
+      </div>
+    </div>
+    <div id="sidebox">
+      <div id="sidemenu">
+	<!-- サイドメニュー  -->
+	<%= render 'shared/sidemenu_adm' %>
+	<%= render 'shared/sidemenu_public' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,69 @@
+# -*- coding: utf-8 -*-
+class User < ActiveRecord::Base
+#  attr_accessible :account, :email, :grade, :password_digest, :role_id, :studentid, :username
+#  attr_accessible :account, :email, :grade, :password, :role_id, :studentid, :username, :password_confirmation, :machine, :acception, :owner, :year, :furigana #, :password_digest
+  belongs_to :role
+  has_many :repbodies
+  has_many :myfiles
+  has_many :comments, :through => :repbodies
+  has_many :usercomments, :through => :repbodies, :through => :comments
+
+#  has_one :repbody
+#=begin
+  has_secure_password 
+  validates_presence_of :password, :on => :create 
+#  validates_inclusion_of :owner, in: ->(user) { USER[user.account] }
+  validates :account, :presence => true, 
+                      :uniqueness => true, 
+                      :format => { :with => /(\w|\d)+/,
+                                   :message => "は半角英数字で記入して下さい" }, 
+                      :on => :create
+  validates :username, :presence => true, :on => :create
+  validates :furigana, :presence => true, :on => :create
+  validates :role_id, :presence => true, :numericality => true, :on => :create
+  validates :studentid, :presence => true, :numericality => true, :on => :create
+:account, :email, :grade, :password, :role_id, :studentid, :username, :password_confirmation, :machine, :acception, :owner, :year, :furigana  validates :grade, :presence => true,  
+            :format => { :with => /^[A-Z]\d$/,
+                         :message => "は '大文字アルファベット + 数字' で記入してください"
+                       },
+            :on => :create
+  validates :machine, :presence => true,  
+            :format => { :with => /^joho[0-9][0-9]$/,
+                         :message => "は 'johoXX'(XX は 2 桁の数字) で記入してください"
+                       },
+            :on => :create
+  validates :email, :presence => true,  
+            :uniqueness => true, 
+            :format => { :with => /^\S*\S@\S*/,
+                         :message => "がまちがっています．確認してください. "
+                       },
+            :on => :create
+  validates :owner, :presence => true, 
+#	    if: :check_owner,
+#            :inclusion =>{ :in => %W(ogihara mikataka wataken),
+#            :inclusion => { :in => Proc.new{owner = User.find_by_sql("select * from users where users.role_id != 4;")},
+#                         :message => "にはTA, VTA, Staff のアカウントを正確に入力してください"
+#		       },
+            :format => { :with => /(\w|\d)+/,
+                         :message => "が間違っています．半角英数字で記入してください. "
+                       },
+            :on => :create
+
+private
+def check_owner
+    self.user == users
+#    errors.add(:base, "Currency code must exist") unless User.users.include?(self.)
+end
+def check_owner
+#    if User.exists?(:id)
+#if owner = User.all && owner = User.find_by_sql("select * from users where users.role_id = 1;") 
+#    if  owner == User.find_by_account(params[:account]) #User.find_by_sql("select * from users;")
+#      errors.add(:owner, "OK!")
+#    else
+#      errors.add(:owner, "He cannot be owner.")      
+#    end
+
+  end
+#=end
+end
+

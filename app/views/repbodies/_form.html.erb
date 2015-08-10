@@ -1,0 +1,142 @@
+<div id="mainbody">
+  <div id="container">
+    <div id="mainbox">
+      <div id="mainfield">
+	<!-- メインコンテンツ  -->
+	<%= form_for([current_user, @repbody]) do |f| %>
+	<% if @repbody.errors.any? %>
+	<div id="error_explanation">
+	  <h2><%= pluralize(@repbody.errors.count, "error") %> prohibited this repbody from being saved:</h2>
+	  
+	  <ul>
+	    <% @repbody.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+	    <% end %>
+	  </ul>
+	</div>
+	<% end %>
+	
+	<!--  <div class="field">
+	      <%= f.label :account %><br />
+	      <%= f.number_field :user_id %>
+	</div>
+	-->
+	<%= p @msg %>
+	<p>
+	  <b>User:</b>
+	  <%= @repbody.user.account %>
+	</p>
+	
+	<div class="field">
+	  <%= f.label :タグ %>
+	  <%= f.collection_select(:tag_id, @tag, :id, :tag, :selected => @repbody.tag_id)%>
+	</div>
+	
+	
+	<div class="field">
+	  <%= f.label :title %><br />
+	  <%= f.text_field :title %>
+	</div>
+	<div class="field">
+	  <%= f.label :body %><br />
+	  <%= f.text_area :body %>
+	</div>
+	<% hidden_field :lock, :lock_version %>
+
+	<div id="disp1">
+
+	    <input type="button" value="参考 URL 追加欄を表示" onclick="Hyoji1(0)">
+
+	</div>
+	<div id="disp2" style="display:none;">
+
+  	    <input type="button" value="参考 URL 入力欄を非表示" onclick="Hyoji1(1)">
+
+	  <table >
+	    <% @slink.each_with_index do |slink, i| %>
+	    <% @slink = slink %>
+	    <tr>
+	      <td>title<%= i+1 %></td>
+	      <td><%= text_field "slink", "title", :id =>"slink_title_#{i}", :index => i%></td>
+	    </tr>
+	    <tr>
+	      <td>
+		<!--	<label for="slink_title_<%= i %>">title</label> -->
+		URL<%= i+1 %>
+	      </td>
+	      <!--	<label for="slink_url_<%= i %>">url</label> -->
+	      <td>
+		<%= text_field "slink", "link", :id =>"slink_url_#{i}", :index => i  ,:rows => 10%>
+	      </td>
+	      <% end %>
+	      <%# end %>
+	      <%# end %>
+	  </table>
+	</div>
+	
+	<br />
+	<% if @hyperlinks.empty? %>
+	<p> 現在このレポートには参考 URL はありません </p><br />
+	<% else %>
+	<br />
+	<table width="700px" border="0" cellspacing="1" bgcolor="#c71585">
+	  <tr bgcolor="#c71585" align="left">
+	      <th><b><font color="#ffffff"> リンク名 </font></b></th>
+	      <th><b><font color="#ffffff"> URL </font></b></th>
+	      <th><b><font color="#ffffff"> 削除 </font></b></th>
+
+	  </tr>
+
+	  <% @hyperlinks.each do |hlink| %>
+	  <tr style="background-color:<%= cycle('#ffffff', '#d3d3d3') %>">
+	    <td><%= hlink.title %></td>
+	    <td><%= link_to(hlink.link, hlink.link) %></td>
+	    <td><%= link_to('削除する', :controller => 'hyperlinks', :action => 'destroy', :id => hlink.id) %>
+	  </tr>
+	  <% end %>
+	  <% end %>
+
+	</table>
+	<br />
+
+
+	<div class="actions">
+	  <%= f.submit %>
+
+
+
+
+	</div>
+	
+	<% end %>
+	
+      </div>
+    </div>
+    <div id="sidebox">
+      <div id="sidemenu">
+	<!-- サイドメニュー  -->
+	<%= render 'shared/sidemenu_public' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+
+function Hyoji1(num)
+{
+  if (num == 0)
+  {
+    document.getElementById("disp1").style.display="none";
+    document.getElementById("disp2").style.display="block";
+  }
+  else
+  {
+    document.getElementById("disp1").style.display="block";
+    document.getElementById("disp2").style.display="none";
+  }
+}
+// -->
+</script>

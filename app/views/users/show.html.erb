@@ -1,0 +1,75 @@
+<p id="notice"><%= notice %></p>
+<h1>ユーザ情報</h1>
+
+<div id="mainbody">
+  <div id="container">
+    <div id="mainbox">
+      <div id="imagebox">
+	<!-- userimage  -->	
+	<p>
+           <%= image_tag @user.avatar.url, :size => "200x200" %>
+          <!-- <%= image_tag("@user.image", :size => "150x150") %> -->
+	</p>
+      </div> <!-- imagebox -->
+      <div id="mainfield">
+	<!-- メインコンテンツ  -->	
+	<p>
+	  <b>Year:</b>
+	  <%= @user.year %>
+	</p>
+	<p>
+	  <b>ID:</b>
+	  <%= @user.id %>
+	</p>
+	
+	<p>
+	  <b>Account:</b>
+	  <%= @user.account %>
+	</p>
+	
+	<p>
+	  <b>Username:</b>
+	  <%= @user.username %>
+	</p>
+
+	<p>
+	  <b>Furigana:</b>
+	  <%= @user.furigana %>
+	</p>
+	
+	<p>
+	  <b>Studentid:</b>
+	  <%= @user.studentid %>
+	</p>
+	
+	<p>
+	  <b>Email:</b>
+	  <%= @user.email %>
+	</p>
+	
+	<p>
+	  <b>Role:</b>
+	  <%= @user.role.position %>
+	</p>
+	
+	<p>
+	  <b>Grade:</b>
+	  <%= @user.grade %>
+	</p>
+	
+	<p>
+	  <b>Machine:</b>
+	  <%= @user.machine %>
+	</p>
+      </div> <!-- mainfield -->
+    </div>   <!--  mainbox  -->
+
+    <div id="sidebox">
+      <div id="sidemenu">
+	<!-- サイドメニュー  -->
+	<%= render 'shared/sidemenu_public' %>
+      </div> <!-- sidemenu -->
+    </div>   <!-- sidebox -->
+  </div>     <!-- container -->
+</div>       <!-- mainbody -->
+

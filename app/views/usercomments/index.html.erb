@@ -1,0 +1,31 @@
+<h1>Listing usercomments</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Repbody</th>
+    <th>Comment</th>
+    <th>Date</th>
+    <th>Body</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @usercomments.each do |usercomment| %>
+  <tr>
+    <td><%= usercomment.user_id %></td>
+    <td><%= usercomment.repbody %></td>
+    <td><%= usercomment.comment %></td>
+    <td><%= usercomment.date %></td>
+    <td><%= usercomment.body %></td>
+    <td><%= link_to 'Show', usercomment %></td>
+    <td><%= link_to 'Edit', edit_usercomment_path(usercomment) %></td>
+    <td><%= link_to 'Destroy', usercomment, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Usercomment', new_usercomment_path %>
